@@ -222,11 +222,6 @@
         /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
-            /* 
-               Updated Background: 
-               Changed to represent the Couple image (5871d43e...).
-               Adjusted gradient to Black/Dark Grey to match the original image's black background.
-            */
             background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(17, 24, 39, 0.85)), 
                         url('https://picsum.photos/seed/pinkcouple/1920/1080.jpg') center/cover no-repeat;
             display: flex;
@@ -623,7 +618,7 @@
         }
 
         .form-container input, 
-        .form-container select { /* Added Select styling */
+        .form-container select {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #d1d5db;
@@ -661,6 +656,13 @@
             background-color: var(--accent-hover);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+        }
+
+        /* Success Message Style */
+        .success-message-box {
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.5s ease-out;
         }
 
         /* --- MINISTRIES --- */
@@ -1066,7 +1068,7 @@
                 <a href="#contact" class="btn">Plan Your Visit</a>
                 <!-- UPDATED LINK FOR WATCH LIVE TO PROFILE -->
                 <a href="https://www.facebook.com/profile.php?id=100064572321117" class="btn btn-outline" target="_blank">Watch Live</a>
-                <!-- NEW BUTTON FOR CONNECT SEGMENT -->
+                <!-- BUTTON FOR CONNECT SEGMENT -->
                 <button id="open-connect-modal" class="btn btn-outline" style="border-color: #fcd34d; color: #fcd34d;">Connect With Us</button>
             </div>
         </div>
@@ -1411,57 +1413,74 @@
                 <button class="close-modal" id="close-connect-modal">&times;</button>
             </div>
             <div class="form-container">
-                <p style="margin-bottom: 20px; color: var(--text-light); font-size: 0.9rem;">
-                    Welcome to the family! Please fill in your details so we can get to know you better.
-                </p>
-                <form action="connect_process.php" method="POST">
-                    <div class="form-group">
-                        <label for="full_name">Full Name</label>
-                        <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                
+                <!-- Success Message Container (Hidden by default) -->
+                <div id="connect-success-message" class="success-message-box" style="display: none;">
+                    <div style="font-size: 4rem; color: #10b981; margin-bottom: 15px;">
+                        <i class="fas fa-check-circle"></i>
                     </div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">Thank You!</h3>
+                    <p style="color: var(--text-dark); font-size: 1.1rem; margin-top: 10px;">
+                        Request received... will get back to you soon.
+                    </p>
+                    <button class="btn" onclick="document.getElementById('connect-modal').style.display='none'" style="margin-top: 20px;">Close</button>
+                </div>
 
-                    <div class="form-group">
-                        <label for="connect_email">Email Address</label>
-                        <input type="email" id="connect_email" name="email" placeholder="you@example.com" required>
-                    </div>
+                <!-- The Form Container (Visible by default) -->
+                <div id="connect-form-wrapper">
+                    <p style="margin-bottom: 20px; color: var(--text-light); font-size: 0.9rem;">
+                        Welcome to the family! Please fill in your details so we can get to know you better.
+                    </p>
+                    <form id="connect-form" action="connect_process.php" method="POST">
+                        <div class="form-group">
+                            <label for="full_name">Full Name</label>
+                            <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="connect_phone">Phone Number</label>
-                        <input type="tel" id="connect_phone" name="phone_number" placeholder="e.g. 07..." required>
-                    </div>
+                        <div class="form-group">
+                            <label for="connect_email">Email Address</label>
+                            <input type="email" id="connect_email" name="email" placeholder="you@example.com" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="location">Where do you live?</label>
-                        <input type="text" id="location" name="location" placeholder="e.g. Nyali, Mishomoroni, Likoni" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="connect_phone">Phone Number</label>
+                            <input type="tel" id="connect_phone" name="phone_number" placeholder="e.g. 07..." required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="age_group">Age Group</label>
-                        <select id="age_group" name="age_group" required>
-                            <option value="" disabled selected>Select your age group</option>
-                            <option value="Under 18">Under 18</option>
-                            <option value="18-25">18 - 25</option>
-                            <option value="26-35">26 - 35</option>
-                            <option value="36-50">36 - 50</option>
-                            <option value="51-65">51 - 65</option>
-                            <option value="65+">65+</option>
-                        </select>
-                    </div>
+                        <div class="form-group">
+                            <label for="location">Where do you live?</label>
+                            <input type="text" id="location" name="location" placeholder="e.g. Nyali, Mishomoroni, Likoni" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="contact_preference">How would you like us to contact you?</label>
-                        <select id="contact_preference" name="contact_preference" required>
-                            <option value="" disabled selected>Select preferred method</option>
-                            <option value="Phone Call">Phone Call</option>
-                            <option value="SMS">SMS / Text Message</option>
-                            <option value="WhatsApp">WhatsApp</option>
-                            <option value="Email">Email</option>
-                            <option value="Any">Any Method</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit">Submit Details</button>
-                </form>
+                        <div class="form-group">
+                            <label for="age_group">Age Group</label>
+                            <select id="age_group" name="age_group" required>
+                                <option value="" disabled selected>Select your age group</option>
+                                <option value="Under 18">Under 18</option>
+                                <option value="18-25">18 - 25</option>
+                                <option value="26-35">26 - 35</option>
+                                <option value="36-50">36 - 50</option>
+                                <option value="51-65">51 - 65</option>
+                                <option value="65+">65+</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact_preference">How would you like us to contact you?</label>
+                            <select id="contact_preference" name="contact_preference" required>
+                                <option value="" disabled selected>Select preferred method</option>
+                                <option value="Phone Call">Phone Call</option>
+                                <option value="SMS">SMS / Text Message</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                                <option value="Email">Email</option>
+                                <option value="Any">Any Method</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit">Submit Details</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1551,6 +1570,24 @@
 
             // Initialize Connect Modal (NEW)
             setupModal('connect-modal', 'open-connect-modal', 'close-connect-modal');
+
+            // --- NEW: Connect Form Submission Logic ---
+            const connectForm = document.getElementById('connect-form');
+            if (connectForm) {
+                connectForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Stop the page from reloading
+                    
+                    // Get elements
+                    const formWrapper = document.getElementById('connect-form-wrapper');
+                    const successMsg = document.getElementById('connect-success-message');
+                    
+                    // Hide form, show success message
+                    if (formWrapper && successMsg) {
+                        formWrapper.style.display = 'none';
+                        successMsg.style.display = 'block';
+                    }
+                });
+            }
         });
     </script>
 </body>
